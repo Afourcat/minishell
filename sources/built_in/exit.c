@@ -55,7 +55,8 @@ int my_atoi(char const *str)
 	}
 	return (nbr);
 }
-int my_exit(char *cmd[], char *envp[])
+
+int my_exit(char *cmd[], __attribute__ ((unused)) char *envp[])
 {
 	if (cmd[1] != NULL)
 		exit(my_atoi(cmd[1]));

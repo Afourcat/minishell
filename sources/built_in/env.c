@@ -7,7 +7,7 @@
 
 #include <my_printf.h>
 
-int my_env(char *cmd[], char *env[])
+int my_env(__attribute__ ((unused)) char *cmd[], __attribute__ ((unused)) char *env[])
 {
 	int i = 0;
 

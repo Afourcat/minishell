@@ -18,6 +18,7 @@
 #include "str_utils.h"
 #include "command_parser.h"
 #include "minishell.h"
+#include "my_signal.h"
 
 static int my_exec(char **cmd, char *prog, char *env[])
 {
@@ -54,8 +55,6 @@ static int my_sh(char *cmd[], char *envp[])
 
 static int built_in(char *cmd[], char *env[])
 {	
-	int ret = 0;
-
 	for (int i = 0; i < BUILT_IN_NB; ++i)
 		if (my_strcmp(BUILT_IN_STR[i], cmd[0])) {
 			BUILT_IN[i](cmd, env);
@@ -64,18 +63,22 @@ static int built_in(char *cmd[], char *env[])
 	return (1);
 }
 
-int main(int argc, char *argv[], char *envp[])
+int main(UNUSED int argc, UNUSED char *argv[], char *envp[])
 {
 	char *str;
 	int end = 0;
 	char **cmd = NULL;
 	int nbr = 0;
 	
+	set_signal();
 	while (!end)
 	{
 		my_printf("$> ");
 		str = get_next_line(0);
+		if (str == NULL) 
+			signal_quit(3);
 		cmd = command_parser(str, &nbr);
+		transform_parser(cmd, envp);
 		if (built_in(cmd, envp))
 			my_sh(cmd, envp);
 		free_cmd(cmd, nbr);

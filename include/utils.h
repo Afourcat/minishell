@@ -12,5 +12,6 @@
 
 void *my_malloc(size_t size);
 void *my_calloc(size_t size);
+char *get_home(char *env[]);
 
 #endif /* UTILS_H_ */

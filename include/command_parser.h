@@ -17,5 +17,6 @@ char *get_function(char *str, char *env[]);
 int free_cmd(char **cmd, int nbr);
 char *parse_dot(const char *str);
 int given_path(const char *str);
+int transform_parser(char *str[], char *env[]);
 
 #endif /* COMMAND_PARSER_H_ */

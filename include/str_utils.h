@@ -13,5 +13,6 @@ int my_strlen(char* str);
 char *my_strcat(char *dest, char *str);
 char *my_strcpy(char *dest, char *str);
 char *my_strdup(const char *str);
+char *change_tilde_home(char *str, char *env[]);
 
 #endif /* HEADER_H_ */

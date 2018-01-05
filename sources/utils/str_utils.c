@@ -58,3 +58,21 @@ char *my_strcpy(char *dest, char *str)
 	return (dest);
 }
 
+char *change_tilde_home(char *str, char *env[])
+{
+	char *home = get_home(env);
+	int size_home = my_strlen(home);
+	int size_str = my_strlen(str);
+	char *ret = my_malloc(sizeof(char) * (size_home + size_str + 2));
+	int i = -1;
+	int j = 0;
+	
+	while (home[++i])
+		ret[j++] = home[i];
+	ret[j++] = '/';
+	i = 0;
+	while (str[++i])
+		ret[j++] = str[i];
+	ret[j++] = '\0';
+	return (ret);
+}

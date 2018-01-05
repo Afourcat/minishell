@@ -7,6 +7,7 @@
 
 #include "utils.h"
 #include "str_utils.h"
+#include <stdlib.h>
 
 int given_path(const char *str)
 {
@@ -30,4 +31,19 @@ char *parse_dot(const char *str)
 		prog[i - 2] = str[i];
 	prog[i + 1] = '\0';
 	return (prog);
+}
+
+int transform_parser(char *cmd[], char *env[])
+{
+	int i = -1;
+	char *ret = NULL;
+
+	while (cmd[++i] != 0) {
+		if (cmd[i][0] == '~') {
+			ret = change_tilde_home(cmd[i], env);
+			free(cmd[i]);
+			cmd[i] = ret;
+		}
+	}
+	return (0);
 }

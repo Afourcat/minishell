@@ -16,14 +16,15 @@ NAME	=	mysh
 REAL	=	$(ROOT)/release
 
 SRC	=	$(SRC_DIR)/mysh.c			\
-		$(SRC_DIR)/built-in/cd.c		\
-		$(SRC_DIR)/built-in/env.c		\
-		$(SRC_DIR)/built-in/exit.c		\
+		$(SRC_DIR)/built_in/cd.c		\
+		$(SRC_DIR)/built_in/env.c		\
+		$(SRC_DIR)/built_in/exit.c		\
 		$(SRC_DIR)/parser/commande_parser.c	\
 		$(SRC_DIR)/parser/get_path.c		\
 		$(SRC_DIR)/parser/given_path.c		\
 		$(SRC_DIR)/utils/str_utils.c		\
-		$(SRC_DIR)/utils/utils.c
+		$(SRC_DIR)/utils/utils.c		\
+		$(SRC_DIR)/signal/signal.c
 
 WARN	=	-W -Wall -Wextra
 
@@ -81,7 +82,7 @@ buildrepo:
 		$(call make-repo)
 
 re:	fclean
-	@make all
+	@make --no-print-directory all 
 
 echo_build:	echo_debug
 		@printf "$(GREEN)Begin of the build !\n$(ORANGE)Warnings : \n$(WHITE)"
