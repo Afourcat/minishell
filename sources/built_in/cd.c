@@ -11,6 +11,7 @@
 #include "my_printf.h"
 #include "str_utils.h"
 #include "utils.h"
+#include "environment.h"
 
 char *get_were(char *file)
 {
@@ -25,21 +26,9 @@ char *get_were(char *file)
 	my_strcat(ret, file);
 	return (ret);
 }
-
-char *get_home(char *env[])
-{
-	int i = -1;
-
-	while (env[++i] != 0x0)
-		if (env[i][0] == 'H' && env[i][1] == 'O' &&
-		    env[i][2] == 'M' &&	env[i][3] == 'E' &&
-		    env[i][4] == '=')
-			return(env[i] + 5);
-	return (NULL);
-}
-
+   
 //Three entry point actual diretory, ~ and /
-int my_cd(char *cmd[], char *env[])
+int my_cd(char *cmd[], struct env_t *env)
 {
 	int ret = 0;
 	static char old[2048] = "/"; 
@@ -49,16 +38,15 @@ int my_cd(char *cmd[], char *env[])
 		old_cpy[i] = old[i];
 	getcwd(old, sizeof(old));
 	if (cmd[1] == 0x0) {
-		ret = chdir(get_home(env));
+		ret = chdir(env_get_value(env, "HOME"));
 	} else if (cmd[1][0] != '/' && cmd[1][0] != '~') {
 		if (cmd[1][0] == '-' && cmd[1][1] == '\0') {
 			ret = chdir(old_cpy);
 		} else if (cmd[1][0]) {
 			ret = chdir(get_were(cmd[1]));
 		}
-	} else {
+	} else
 		ret = chdir(cmd[1]);	
-	}
 	if (ret == -1)
 		perror("cmd ");
 	return (ret);

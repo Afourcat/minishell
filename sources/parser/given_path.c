@@ -5,9 +5,10 @@
 ** given path functions
 */
 
+#include <stdlib.h>
 #include "utils.h"
 #include "str_utils.h"
-#include <stdlib.h>
+#include "environment.h"
 
 int given_path(const char *str)
 {
@@ -33,14 +34,14 @@ char *parse_dot(const char *str)
 	return (prog);
 }
 
-int transform_parser(char *cmd[], char *env[])
+int transform_parser(char *cmd[], struct env_t *env)
 {
 	int i = -1;
 	char *ret = NULL;
 
 	while (cmd[++i] != 0) {
 		if (cmd[i][0] == '~') {
-			ret = change_tilde_home(cmd[i], env);
+			ret = change_tilde_home(cmd[i], env_get_value(env, "HOME"));
 			free(cmd[i]);
 			cmd[i] = ret;
 		}

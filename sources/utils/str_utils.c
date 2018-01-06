@@ -7,6 +7,7 @@
 
 #include "str_utils.h"
 #include "utils.h"
+#include "environment.h"
 
 int my_strcmp(const char* dest, const char* str)
 {
@@ -58,9 +59,8 @@ char *my_strcpy(char *dest, char *str)
 	return (dest);
 }
 
-char *change_tilde_home(char *str, char *env[])
+char *change_tilde_home(char *str, char *home)
 {
-	char *home = get_home(env);
 	int size_home = my_strlen(home);
 	int size_str = my_strlen(str);
 	char *ret = my_malloc(sizeof(char) * (size_home + size_str + 2));

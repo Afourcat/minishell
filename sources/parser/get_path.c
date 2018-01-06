@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include "str_utils.h"
 #include "utils.h"
+#include "environment.h"
 
 //The original pointer is -0x5 of the one returned
 char *get_path(char *env[])
@@ -72,9 +73,9 @@ static int set_path(char *all_path)
 	return (nb_path);
 }
 
-char *get_function(char *program, char *envp[])
+char *get_function(char *program, struct env_t *env)
 {
-	char *all_path = get_path(envp);
+	char *all_path = env_get_value(env, "PATH");
 	int i = -1;
 	int nb_path = set_path(all_path);
 	char *ret = NULL;

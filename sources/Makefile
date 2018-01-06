@@ -19,12 +19,15 @@ SRC	=	$(SRC_DIR)/mysh.c			\
 		$(SRC_DIR)/built_in/cd.c		\
 		$(SRC_DIR)/built_in/env.c		\
 		$(SRC_DIR)/built_in/exit.c		\
+		$(SRC_DIR)/built_in/setenv.c		\
 		$(SRC_DIR)/parser/commande_parser.c	\
 		$(SRC_DIR)/parser/get_path.c		\
 		$(SRC_DIR)/parser/given_path.c		\
 		$(SRC_DIR)/utils/str_utils.c		\
 		$(SRC_DIR)/utils/utils.c		\
-		$(SRC_DIR)/signal/signal.c
+		$(SRC_DIR)/signal/signal.c		\
+		$(SRC_DIR)/environment/environment.c	\
+		$(SRC_DIR)/environment/environment_2.c
 
 WARN	=	-W -Wall -Wextra
 
@@ -37,6 +40,8 @@ LIB	?=	1
 DEB	?=      0
 
 G	=	-g
+
+V	?=	@
 
 OBJ	=	$(patsubst %.c, $(REAL)/%.o, $(SRC))
 
@@ -59,45 +64,45 @@ RED	=	\e[1;35m
 all:	$(NAME)
 
 $(NAME):	echo_build $(REAL)/$(NAME)
-		@cp $(REAL)/$(NAME) $(ROOT)
-		@printf "$(GREEN)Dup $(NAME) into root directory.$(WHITE)\n"
+		$(V)cp $(REAL)/$(NAME) $(ROOT)
+		$(V)printf "$(GREEN)Dup $(NAME) into root directory.$(WHITE)\n"
 
 
 $(REAL)/$(NAME):	buildrepo $(OBJ)
-			@printf "$(GREEN)Compile sources.$(WHITE)\n"
-			@$(CC) -o $(REAL)/$(NAME) $(OBJ) $(LDFLAGS) -D $(MACRO)
-			@printf "$(GREEN)Linking obj and Libraries.$(WHITE)\n"
+			$(V)printf "$(GREEN)Compile sources.$(WHITE)\n"
+			$(V)$(CC) -o $(REAL)/$(NAME) $(OBJ) $(LDFLAGS) -D $(MACRO)
+			$(V)printf "$(GREEN)Linking obj and Libraries.$(WHITE)\n"
 
 $(REAL)/%.o:	$(SRC_DIR)/%.c
-		@$(CC) -o $@ -c $< $(CFLAGS) $(LDFLAGS)
+		$(V)$(CC) -o $@ -c $< $(CFLAGS) $(LDFLAGS)
 
 clean:
-	@rm -rf $(OBJ)
-	@printf "$(ORANGE)removing object files.$(WHITE)\n"
+	$(V)rm -rf $(OBJ)
+	$(V)printf "$(ORANGE)removing object files.$(WHITE)\n"
 
 fclean:	clean
-	@rm -f $(REAL)/$(NAME)
-	@rm -f $(ROOT)/$(NAME)
-	@printf "$(ORANGE)removing binary file.$(WHITE)\n"
+	$(V)rm -f $(REAL)/$(NAME)
+	$(V)rm -f $(ROOT)/$(NAME)
+	$(V)printf "$(ORANGE)removing binary file.$(WHITE)\n"
 
 buildrepo:
 		$(call make-repo)
 
 re:	fclean
-	@make --no-print-directory all 
+	$(V)make --no-print-directory all 
 
 echo_build:	echo_debug
-		@printf "$(GREEN)Begin of the build !\n$(ORANGE)Warnings : \n$(WHITE)"
+		$(V)printf "$(GREEN)Begin of the build !\n$(ORANGE)Warnings : \n$(WHITE)"
 
 echo_debug:
-		@if [ $(DEB) == 1 ]; then\
+		$(V)if [ $(DEB) == 1 ]; then\
 			printf "$(RED)debug mode initialized.$(WHITE)\n";\
 		fi
 
 .PHONY: clean fclean debug all re echo_build echo_debug buildrepo
 
 define make-repo
-	@for dir in $(dir $(OBJ)); \
+	$(V)for dir in $(dir $(OBJ)); \
 	do 			  \
 		mkdir -p $$dir;	  \
 	done

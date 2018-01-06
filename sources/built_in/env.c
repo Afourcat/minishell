@@ -6,13 +6,14 @@
 */
 
 #include <my_printf.h>
+#include "environment.h"
 
-int my_env(__attribute__ ((unused)) char *cmd[], __attribute__ ((unused)) char *env[])
+int my_env(__attribute__ ((unused)) char *cmd[], struct env_t *env)
 {
 	int i = 0;
+	char **str = etsa(env);
 
-	while (env[++i] != 0x0) {
-		my_printf("%s\n", env[i]);
-	}
+	while (str[++i] != 0x0)
+		my_printf("%s\n", str[i]);
 	return (0);
 }

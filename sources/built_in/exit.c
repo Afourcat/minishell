@@ -6,6 +6,8 @@
 */
 
 #include <stdlib.h>
+#include "environment.h"
+
 static int getnbr_isnum(char c)
 {
         return (c >= '0' && c <= '9');
@@ -56,7 +58,7 @@ int my_atoi(char const *str)
 	return (nbr);
 }
 
-int my_exit(char *cmd[], __attribute__ ((unused)) char *envp[])
+int my_exit(char *cmd[], __attribute__ ((unused)) struct env_t *env)
 {
 	if (cmd[1] != NULL)
 		exit(my_atoi(cmd[1]));
