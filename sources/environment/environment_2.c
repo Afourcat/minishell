@@ -16,7 +16,7 @@ int env_get_size(struct env_t *env)
 	struct env_t *temp = env;
 	int i = 0;
 
-	while (temp->next != NULL) {
+	while (temp != NULL) {
 		temp = temp->next;
 		i++;
 	}
@@ -28,7 +28,7 @@ int env_pop(struct env_t *env, char *name)
 	struct env_t *temp = env;
 	struct env_t *previous = temp;
 
-	while (temp->next != NULL) {
+	while (temp != NULL) {
 		previous = temp;
 		temp = temp->next;
 		if(my_strcmp(name, temp->name)) {
@@ -50,7 +50,7 @@ char **etsa(struct env_t *env)
 	int actual_size = 0;
 	int i = 0;
 
-	while (temp->next != NULL) {
+	while (temp != NULL) {
 		actual_size = my_strlen(temp->name) + my_strlen(temp->value);
 		string_env[i] = my_malloc(sizeof(char) * (actual_size + 1));
 		my_strcpy(string_env[i], temp->name);	

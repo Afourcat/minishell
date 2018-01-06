@@ -9,7 +9,6 @@
 
 int my_setenv(char *cmd[], struct env_t *env)
 {
-	my_printf("SET %s", cmd[1]);
 	env_push(env, cmd[1]);
 	return (0);
 }

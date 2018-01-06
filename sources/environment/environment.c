@@ -15,7 +15,7 @@ char *env_get_value(struct env_t *env, char *name)
 {
 	struct env_t *temp = env;
 
-	while (!my_strcmp(temp->name, name) && temp->next != NULL) {
+	while (!my_strcmp(temp->name, name) && temp != NULL) {
 		temp = temp->next;
 	}
 	return (temp->value);
@@ -67,7 +67,7 @@ void env_printf(struct env_t *env)
 {
 	struct env_t *temp = env;
 
-	while (temp->next != NULL) {
+	while (temp != NULL) {
 		my_printf("NAME  = %s\n", temp->name);
 		my_printf("VALUE = %s\n", temp->value);
 		temp = temp->next;
