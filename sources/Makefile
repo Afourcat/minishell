@@ -44,6 +44,8 @@ ifeq ($(DEB), 1)
 	CFLAGS += $(G)
 endif
 
+MACRO	?=	NORMAL
+
 #COLOR
 
 GREEN	=	\e[1;32m
@@ -63,7 +65,7 @@ $(NAME):	echo_build $(REAL)/$(NAME)
 
 $(REAL)/$(NAME):	buildrepo $(OBJ)
 			@printf "$(GREEN)Compile sources.$(WHITE)\n"
-			@$(CC) -o $(REAL)/$(NAME) $(OBJ) $(LDFLAGS)
+			@$(CC) -o $(REAL)/$(NAME) $(OBJ) $(LDFLAGS) -D $(MACRO)
 			@printf "$(GREEN)Linking obj and Libraries.$(WHITE)\n"
 
 $(REAL)/%.o:	$(SRC_DIR)/%.c

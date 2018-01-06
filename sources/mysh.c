@@ -63,6 +63,7 @@ static int built_in(char *cmd[], char *env[])
 	return (1);
 }
 
+#ifndef DEBUG_1
 int main(UNUSED int argc, UNUSED char *argv[], char *envp[])
 {
 	char *str;
@@ -85,3 +86,4 @@ int main(UNUSED int argc, UNUSED char *argv[], char *envp[])
 	}
 	return (0);
 }
+#endif /* DEBUG_1 */
