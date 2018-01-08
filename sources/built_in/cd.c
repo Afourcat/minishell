@@ -16,11 +16,11 @@
 char *get_were(char *file)
 {
 	char *ret = 0;
-	int size = my_strlen(file);
+	int size = my_strsize(file);
 	char cwd[2048];
 
 	getcwd(cwd, sizeof(cwd));
-	ret = my_calloc(sizeof(char) * (my_strlen(cwd) + size + 2));
+	ret = my_calloc(sizeof(char) * (my_strsize(cwd) + size + 2));
 	my_strcat(ret, cwd);
 	my_strcat(ret, "/");
 	my_strcat(ret, file);

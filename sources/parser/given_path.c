@@ -26,7 +26,7 @@ int given_path(const char *str)
 char *parse_dot(const char *str)
 {
 	int i = 0;
-	char *prog = my_malloc(sizeof(char) * (my_strlen((char*)str)));
+	char *prog = my_calloc(sizeof(char) * (my_strsize((char*)str)));
 
 	while (str[++i])
 		prog[i - 2] = str[i];
@@ -42,6 +42,10 @@ int transform_parser(char *cmd[], struct env_t *env)
 	while (cmd[++i] != 0) {
 		if (cmd[i][0] == '~') {
 			ret = change_tilde_home(cmd[i], env_get_value(env, "HOME"));
+			free(cmd[i]);
+			cmd[i] = ret;
+		} else if (cmd[i][0] == '$') {
+			ret = env_get_value(env, cmd[i] + 1);
 			free(cmd[i]);
 			cmd[i] = ret;
 		}

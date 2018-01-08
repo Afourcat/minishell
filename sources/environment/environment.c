@@ -15,10 +15,13 @@ char *env_get_value(struct env_t *env, char *name)
 {
 	struct env_t *temp = env;
 
-	while (!my_strcmp(temp->name, name) && temp != NULL) {
+	temp = temp->next;
+	while (temp != NULL) {
+		if (my_strcmp(temp->name, name))
+			break;
 		temp = temp->next;
 	}
-	return (temp->value);
+	return (temp == NULL) ? my_strdup("(nil)") : temp->value;
 }
 
 static void assign_name(struct env_t *env, char *value)
@@ -29,9 +32,9 @@ static void assign_name(struct env_t *env, char *value)
 	int size_value = 0;
 	
 	while (value[++size_name] != '=');
-	env->name = my_malloc(sizeof(char) * (size_name + 2));
+	env->name = my_calloc(sizeof(char) * (size_name + 2));
 	while (value[size_name + (++size_value)] != '\0');
-	env->value = my_malloc(sizeof(char) * (size_value + 2));
+	env->value = my_calloc(sizeof(char) * (size_value + 2));
 	while (++i < size_name)
 		env->name[i] = value[i];
 	env->name[i + 1] = 0;
@@ -44,7 +47,7 @@ static void assign_name(struct env_t *env, char *value)
 void env_push(struct env_t *env, char *value)
 {
 	struct env_t *temp = env;
-	struct env_t *new_elem = malloc(sizeof(struct env_t));
+	struct env_t *new_elem = my_malloc(sizeof(struct env_t));
 
 	assign_name(new_elem, value);
 	while (temp->next != NULL)
@@ -55,9 +58,11 @@ void env_push(struct env_t *env, char *value)
 struct env_t *env_create(char *envp[])
 {
 	int i = -1;
-	struct env_t *env = malloc(sizeof(struct env_t));
+	struct env_t *env = my_malloc(sizeof(struct env_t));
 
-	assign_name(env, envp[++i]);
+	env->next = 0;
+	env->name = my_strdup("(nil)");
+	env->value = my_strdup("(nil)");
 	while (envp[++i] != 0)
 		env_push(env, envp[i]);
 	return (env);
@@ -73,17 +78,3 @@ void env_printf(struct env_t *env)
 		temp = temp->next;
 	}
 }
-
-#ifdef DEBUG_1
-
-int main(int argc, char *argv[], char *envp[])
-{
-	struct env_t *env = env_create(envp);
-	env_printf(env);
-	my_printf("GET TEST \n");
-	my_printf("get USER %s\n", env_get_value(env, "USER"));
-	my_printf("get PATH %s\n", env_get_value(env, "PATH"));
-	return (0);
-}
-
-#endif /* DEBUG_1 */

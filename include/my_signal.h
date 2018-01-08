@@ -9,6 +9,8 @@
 #define	SIGNAL_H_	
 
 void signal_quit(int signum);
+void signal_child(int signum);
 void set_signal(void);
+char *prompt_save(char *prompt);
 
 #endif /* SIGNAL_H_ */

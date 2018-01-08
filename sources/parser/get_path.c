@@ -11,21 +11,7 @@
 #include "str_utils.h"
 #include "utils.h"
 #include "environment.h"
-
-//The original pointer is -0x5 of the one returned
-char *get_path(char *env[])
-{
-	int i = 0;
-	
-	while (42) {
-		if (env[i][0] == 'P' && env[i][1] == 'A' &&
-		    env[i][2] == 'T' && env[i][3] == 'H' &&
-		    env[i][4] == '=')
-			return (env[i] + 5);
-		i++;
-	}
-	exit(84);
-}
+#include "my_printf.h"
 
 static void reset_env(char *all_path, int nbr)
 {
@@ -44,15 +30,15 @@ static char *concate_path(char *program, char *all_path, int *f_c)
 	int i = 1;
 	int j = -1;
 	int size_path = 0;
-	int size_program = my_strlen(program);
+	int size_program = my_strsize(program);
 	char *ret = NULL;
 	
 	while (i < *f_c)
 		if (all_path[++j] == '\0')
 			i++;
 	j++;
-	size_path = my_strlen(all_path + j);
-	ret = my_malloc(sizeof(char) * (size_program + size_path + 2));
+	size_path = my_strsize(all_path + j);
+	ret = my_calloc(sizeof(char) * (size_program + size_path + 5));
 	my_strcat(ret, all_path + j);
 	my_strcat(ret, "/");
 	my_strcat(ret, program);
@@ -83,7 +69,7 @@ char *get_function(char *program, struct env_t *env)
 	
 	while (++i < nb_path) {
 		ret = concate_path(program, all_path, &f_cnt);
-		if (access(ret, F_OK) != -1) {
+		if (access(ret, X_OK) != -1) {
 			reset_env(all_path, nb_path);
 			return (ret);
 		}

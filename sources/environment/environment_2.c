@@ -50,13 +50,15 @@ char **etsa(struct env_t *env)
 	int actual_size = 0;
 	int i = 0;
 
+	temp = temp->next;
 	while (temp != NULL) {
-		actual_size = my_strlen(temp->name) + my_strlen(temp->value);
-		string_env[i] = my_malloc(sizeof(char) * (actual_size + 1));
+		actual_size = my_strsize(temp->name) + my_strsize(temp->value);
+		string_env[i] = my_calloc(sizeof(char) * (actual_size + 2));
 		my_strcpy(string_env[i], temp->name);	
 		my_strcat(string_env[i], "=");
 		my_strcat(string_env[i++], temp->value);	
 		temp = temp->next;
 	}
+	string_env[i] = 0;
 	return (string_env);
 }	

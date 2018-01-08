@@ -23,16 +23,24 @@
 
 static int my_exec(char **cmd, char *prog, struct env_t *env)
 {
-	int statue = 0;
-	pid_t pid = 0;
-	
+	int status = 0;
+	pid_t pid = -1;
+	static pid_t is_fork = 0;
+
 	pid = fork();
 	if (pid < 0)
 		perror("fork ");
-	else if (pid == 0)
+	else if (pid == 0) {
+		signal(SIGINT, signal_child);
+		is_fork = 1;
+		my_printf("Salam\n");
 		execve(prog, cmd, etsa(env));
-	else
-		waitpid(pid, &statue, 0);
+		my_printf("Salut\n");
+		is_fork = 0;
+		exit(0);
+	} else {
+		waitpid(pid, &status, 0);
+	}
 	return (0);
 }
 
@@ -64,7 +72,6 @@ static int built_in(char *cmd[], struct env_t *env)
 	return (1);
 }
 
-#ifndef DEBUG_1
 int main(UNUSED int argc, UNUSED char *argv[], char *envp[])
 {
 	char *str;
@@ -72,11 +79,13 @@ int main(UNUSED int argc, UNUSED char *argv[], char *envp[])
 	char **cmd = NULL;
 	int nbr = 0;
 	struct env_t *env = env_create(envp);
+	char *prompt = generate_prompt(env_get_value(env, my_strdup("PS1")), env);	
 
+	prompt_save(prompt);
 	set_signal();
 	while (!end)
 	{
-		my_printf("$> ");
+       		my_printf("%s", prompt);
 		str = get_next_line(0);
 		if (str == NULL) 
 			signal_quit(3);
@@ -85,7 +94,7 @@ int main(UNUSED int argc, UNUSED char *argv[], char *envp[])
 		if (built_in(cmd, env))
 			my_sh(cmd, env);
 		free_cmd(cmd, nbr);
+		free(str);
 	}
 	return (0);
 }
-#endif /* DEBUG_1 */
