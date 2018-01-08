@@ -21,7 +21,7 @@ char *env_get_value(struct env_t *env, char *name)
 			break;
 		temp = temp->next;
 	}
-	return (temp == NULL) ? my_strdup("(nil)") : temp->value;
+	return (temp == NULL) ? "(nil)" : temp->value;
 }
 
 static void assign_name(struct env_t *env, char *value)

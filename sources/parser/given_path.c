@@ -43,11 +43,11 @@ int transform_parser(char *cmd[], struct env_t *env)
 		if (cmd[i][0] == '~') {
 			ret = change_tilde_home(cmd[i], env_get_value(env, "HOME"));
 			free(cmd[i]);
-			cmd[i] = ret;
+			cmd[i] = my_strdup(ret);
 		} else if (cmd[i][0] == '$') {
 			ret = env_get_value(env, cmd[i] + 1);
 			free(cmd[i]);
-			cmd[i] = ret;
+			cmd[i] = my_strdup(ret);
 		}
 	}
 	return (0);

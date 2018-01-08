@@ -42,6 +42,19 @@ int env_pop(struct env_t *env, char *name)
 	return (0);
 }
 
+void env_push_two_part(struct env_t *env, char *name, char *value)
+{
+	struct env_t *temp = env;
+	struct env_t *new_elem = my_malloc(sizeof(struct env_t));
+
+	new_elem->name = my_strdup(name);
+	new_elem->value = my_strdup(value);
+	new_elem->next = NULL;
+	while (temp->next != NULL)
+		temp = temp->next;
+	temp->next = new_elem;
+}
+
 char **etsa(struct env_t *env)
 {
 	int size_env = env_get_size(env);

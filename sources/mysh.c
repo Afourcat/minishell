@@ -33,9 +33,7 @@ static int my_exec(char **cmd, char *prog, struct env_t *env)
 	else if (pid == 0) {
 		signal(SIGINT, signal_child);
 		is_fork = 1;
-		my_printf("Salam\n");
 		execve(prog, cmd, etsa(env));
-		my_printf("Salut\n");
 		is_fork = 0;
 		exit(0);
 	} else {
@@ -72,9 +70,21 @@ static int built_in(char *cmd[], struct env_t *env)
 	return (1);
 }
 
+char *get_command_line(char *str, char *prompt)
+{
+	while (str[0] == '\0') {
+		my_printf("%s", prompt);
+		free(str);
+		str = get_next_line(0);
+		if (str == NULL) 
+			signal_quit(3);	
+	}
+	return (str);
+}
+
 int main(UNUSED int argc, UNUSED char *argv[], char *envp[])
 {
-	char *str;
+	char *str = my_strdup("");
 	int end = 0;
 	char **cmd = NULL;
 	int nbr = 0;
@@ -85,16 +95,13 @@ int main(UNUSED int argc, UNUSED char *argv[], char *envp[])
 	set_signal();
 	while (!end)
 	{
-       		my_printf("%s", prompt);
-		str = get_next_line(0);
-		if (str == NULL) 
-			signal_quit(3);
+		str = get_command_line(str, prompt);
 		cmd = command_parser(str, &nbr);
 		transform_parser(cmd, env);
 		if (built_in(cmd, env))
 			my_sh(cmd, env);
 		free_cmd(cmd, nbr);
-		free(str);
+		str[0] = '\0';
 	}
 	return (0);
 }

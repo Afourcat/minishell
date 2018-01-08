@@ -9,7 +9,7 @@
 
 int my_setenv(char *cmd[], struct env_t *env)
 {
-	env_push(env, cmd[1]);
+	env_push_two_part(env, cmd[1], cmd[2]);
 	return (0);
 }
 

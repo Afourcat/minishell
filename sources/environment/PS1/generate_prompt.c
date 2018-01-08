@@ -38,7 +38,6 @@ int count_size(char *value, int *i, struct env_t *env)
 
 	if (value[*i] == '\\' && value[*i + 1] != 'e') {
 		str = get_wich(value, i, env);
-		my_printf("STR = %s\n", str);
 		ret += my_strsize(str);
 		free(str);
 	} else {
