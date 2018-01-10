@@ -84,6 +84,7 @@ char *get_command_line(char *str, struct env_t *env)
 	return (str);
 }
 
+#ifndef TEST_MACRO
 int main(UNUSED int argc, UNUSED char *argv[], char *envp[])
 {
 	char *str = my_strdup("");
@@ -105,3 +106,4 @@ int main(UNUSED int argc, UNUSED char *argv[], char *envp[])
 	}
 	return (0);
 }
+#endif /* TEST_MACRO */

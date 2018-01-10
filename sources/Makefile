@@ -39,19 +39,23 @@ LDFLAGS	=	-L $(ROOT)/library -l myprintf -l gnl
 
 LIB	?=	1
 
+TEST	?=	0
+
 DEB	?=      0
 
 G	=	-g
 
 V	?=	@
 
-OBJ	=	$(patsubst %.c, $(REAL)/%.o, $(SRC))
+OBJS	=	$(patsubst %.c, $(REAL)/%.o, $(SRC))
 
 ifeq ($(DEB), 1)
 	CFLAGS += $(G)
 endif
 
-MACRO	?=	NORMAL
+ifeq ($(TEST), 1)
+	CFLAGS	+= $(MACRO)
+endif
 
 #COLOR
 
@@ -70,16 +74,16 @@ $(NAME):	echo_build $(REAL)/$(NAME)
 		$(V)printf "$(GREEN)Dup $(NAME) into root directory.$(WHITE)\n"
 
 
-$(REAL)/$(NAME):	buildrepo $(OBJ)
+$(REAL)/$(NAME):	buildrepo $(OBJS)
 			$(V)printf "$(GREEN)Compile sources.$(WHITE)\n"
-			$(V)$(CC) -o $(REAL)/$(NAME) $(OBJ) $(LDFLAGS) -D $(MACRO)
+			$(V)$(CC) -o $(REAL)/$(NAME) $(OBJS) $(LDFLAGS)
 			$(V)printf "$(GREEN)Linking obj and Libraries.$(WHITE)\n"
 
 $(REAL)/%.o:	$(SRC_DIR)/%.c
 		$(V)$(CC) -o $@ -c $< $(CFLAGS) $(LDFLAGS)
 
 clean:
-	$(V)rm -rf $(OBJ)
+	$(V)rm -rf $(OBJS)
 	$(V)printf "$(ORANGE)removing object files.$(WHITE)\n"
 
 fclean:	clean
@@ -104,7 +108,7 @@ echo_debug:
 .PHONY: clean fclean debug all re echo_build echo_debug buildrepo
 
 define make-repo
-	$(V)for dir in $(dir $(OBJ)); \
+	$(V)for dir in $(dir $(OBJS)); \
 	do 			  \
 		mkdir -p $$dir;	  \
 	done

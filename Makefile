@@ -26,8 +26,10 @@ clean:
 fclean:
 	@make --no-print-directory -C sources/ fclean
 
-test_run:	$(NAME)
-		@make --no-print-directory -C bonus/unittest/ all
-		@make --no-print-directory fclean
+test_run:
+	@make --no-print-directory -C bonus/unittest re
 
-.PHONY:	re	clean	fclean	test_run
+test_clear:
+	@make --no-print-directory -C bonus/unittest fclean
+
+.PHONY:	re	clean	fclean	test_run test_clear
