@@ -16,6 +16,7 @@ int my_exit(char *cmd[], struct env_t *env);
 int my_env(char *cmd[], struct env_t *env);
 int my_setenv(char *cmd[], struct env_t *env);
 int my_unsetenv(char *cmd[], struct env_t *env);
+int my_exec(char **cmd, char *prog, struct env_t *env);
 
 static const char * const BUILT_IN_STR[5] = {"cd", "exit", "env", "setenv", "unsetenv"};
 static const int BUILT_IN_NB = 5;

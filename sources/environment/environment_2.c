@@ -28,7 +28,7 @@ int env_pop(struct env_t *env, char *name)
 	struct env_t *temp = env;
 	struct env_t *previous = temp;
 
-	while (temp != NULL) {
+	while (temp->next != NULL) {
 		previous = temp;
 		temp = temp->next;
 		if(my_strcmp(name, temp->name)) {

@@ -29,7 +29,7 @@ SRC	=	$(SRC_DIR)/mysh.c			\
 		$(SRC_DIR)/signal/signal.c		\
 		$(SRC_DIR)/environment/environment.c	\
 		$(SRC_DIR)/environment/environment_2.c	\
-		$(SRC_DIR)/environment/PS1/generate_prompt.c
+		$(SRC_DIR)/environment/PS1/cpy_prompt.c
 
 WARN	=	-W -Wall -Wextra
 

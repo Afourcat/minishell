@@ -7,7 +7,7 @@
 
 DEB 	?=	0
 
-NAME	=	my_runner
+NAME	=	mysh
 
 all:	$(NAME)
 
@@ -25,3 +25,9 @@ clean:
 
 fclean:
 	@make --no-print-directory -C sources/ fclean
+
+test_run:	$(NAME)
+		@make --no-print-directory -C bonus/unittest/ all
+		@make --no-print-directory fclean
+
+.PHONY:	re	clean	fclean	test_run

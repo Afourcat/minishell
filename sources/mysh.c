@@ -21,22 +21,24 @@
 #include "my_signal.h"
 #include "environment.h"
 
-static int my_exec(char **cmd, char *prog, struct env_t *env)
+int my_exec(char **cmd, char *prog, struct env_t *env)
 {
 	int status = 0;
 	pid_t pid = -1;
 	static pid_t is_fork = 0;
 
+	if (env == NULL)
+		return (is_fork);
 	pid = fork();
 	if (pid < 0)
 		perror("fork ");
 	else if (pid == 0) {
-		signal(SIGINT, signal_child);
-		is_fork = 1;
+		signal(SIGINT, &signal_child);
 		execve(prog, cmd, etsa(env));
-		is_fork = 0;
+		my_printf("test_1");
 		exit(0);
 	} else {
+		is_fork = 1;
 		waitpid(pid, &status, 0);
 	}
 	return (0);
@@ -70,10 +72,10 @@ static int built_in(char *cmd[], struct env_t *env)
 	return (1);
 }
 
-char *get_command_line(char *str, char *prompt)
+char *get_command_line(char *str, struct env_t *env)
 {
 	while (str[0] == '\0') {
-		my_printf("%s", prompt);
+		generate_prompt(env);
 		free(str);
 		str = get_next_line(0);
 		if (str == NULL) 
@@ -89,13 +91,11 @@ int main(UNUSED int argc, UNUSED char *argv[], char *envp[])
 	char **cmd = NULL;
 	int nbr = 0;
 	struct env_t *env = env_create(envp);
-	char *prompt = generate_prompt(env_get_value(env, my_strdup("PS1")), env);	
 
-	prompt_save(prompt);
-	set_signal();
+	set_signal(env);
 	while (!end)
 	{
-		str = get_command_line(str, prompt);
+		str = get_command_line(str, env);
 		cmd = command_parser(str, &nbr);
 		transform_parser(cmd, env);
 		if (built_in(cmd, env))

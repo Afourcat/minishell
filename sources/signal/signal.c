@@ -15,7 +15,8 @@
 #include "errno.h"
 #include "my_printf.h"
 #include "minishell.h"
-
+#include "environment.h"
+/*
 char *prompt_save(char *prompt)
 {
 	static char *buffer = NULL;
@@ -28,16 +29,36 @@ char *prompt_save(char *prompt)
 	}
 	return (buffer);
 }
+*/
+
+struct env_t *get_set_env(struct env_t *env)
+{
+	static struct env_t *saved_pointer = NULL;
+
+	if (env != NULL) {
+		saved_pointer = env;
+		return (NULL);
+	} else {
+		return (saved_pointer);
+	}
+}
 
 void signal_shell(UNUSED int signum)
 {
-	my_printf("\n%s", prompt_save(NULL));
+	my_printf ("TEST");
+	if (my_exec(NULL, NULL, NULL)) {
+		write(1, "\n", 1);
+		generate_prompt(get_set_env(NULL));
+	} else {
+		write(1, "\n", 1);
+	}
 }
 
 void signal_child(UNUSED int signum) 
 {
+	my_printf("LOLO");
 	pid_t pid = getpid();
-	if(kill(pid, SIGINT) == -1)
+	if(kill(pid, SIGINT) == 0)
 		perror("kill ");
 	exit(0);
 }
@@ -48,9 +69,10 @@ void signal_quit(UNUSED int signum)
 	exit(0);
 }
 
-void set_signal()
+void set_signal(struct env_t *env)
 {
-	signal(SIGINT, signal_shell);
+	get_set_env(env);
+	signal(SIGINT, &signal_shell);
 }
 
 

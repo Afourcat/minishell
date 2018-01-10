@@ -22,6 +22,6 @@ void env_set_value(char *name, char *value);
 void env_delete_value(char *name);
 char **etsa(struct env_t *env);
 int env_pop(struct env_t *env, char *name);
-char *generate_prompt(char *value, struct env_t *env);
+char *generate_prompt(struct env_t *env);
 
 #endif /* ENVIRONMENT_H_ */
