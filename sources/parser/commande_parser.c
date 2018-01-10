@@ -28,7 +28,6 @@ static void assigne_word(int nbstr, char *str, char **word_array)
 		word_array[i][k + 1] = 0;
 		while (str[j] == ' ' && str[j + 1] == ' ')
 			j++;
-		printf("%s\n", word_array[i]);
 	}
 }
 
