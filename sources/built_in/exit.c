@@ -60,7 +60,9 @@ int my_atoi(char const *str)
 
 int my_exit(char *cmd[], __attribute__ ((unused)) struct env_t *env)
 {
-	if (cmd[1] != NULL)
+	int nbr = -1;
+	while (cmd[++nbr] != 0);
+	if (nbr > 1)
 		exit(my_atoi(cmd[1]));
 	else
 		exit(0);

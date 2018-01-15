@@ -16,20 +16,6 @@
 #include "my_printf.h"
 #include "minishell.h"
 #include "environment.h"
-/*
-char *prompt_save(char *prompt)
-{
-	static char *buffer = NULL;
-	
-	if (prompt != NULL && buffer != NULL)
-		free(buffer);
-	if (prompt != NULL) {
-		buffer = my_calloc(sizeof(char) * (my_strsize(prompt) + 2));
-		my_strcpy(buffer, prompt);
-	}
-	return (buffer);
-}
-*/
 
 struct env_t *get_set_env(struct env_t *env)
 {
@@ -45,7 +31,6 @@ struct env_t *get_set_env(struct env_t *env)
 
 void signal_shell(UNUSED int signum)
 {
-	my_printf ("TEST");
 	if (my_exec(NULL, NULL, NULL)) {
 		write(1, "\n", 1);
 		generate_prompt(get_set_env(NULL));

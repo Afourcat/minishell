@@ -29,7 +29,8 @@ SRC	=	$(SRC_DIR)/mysh.c			\
 		$(SRC_DIR)/signal/signal.c		\
 		$(SRC_DIR)/environment/environment.c	\
 		$(SRC_DIR)/environment/environment_2.c	\
-		$(SRC_DIR)/environment/PS1/cpy_prompt.c
+		$(SRC_DIR)/environment/PS1/cpy_prompt.c	\
+		$(SRC_DIR)/parser/cut_cmd.c
 
 WARN	=	-W -Wall -Wextra
 
@@ -67,6 +68,8 @@ ORANGE	=	\e[1;33m
 
 RED	=	\e[1;35m
 
+BLUE	=	\e[1;34m
+
 all:	$(NAME)
 
 $(NAME):	echo_build $(REAL)/$(NAME)
@@ -80,16 +83,17 @@ $(REAL)/$(NAME):	buildrepo $(OBJS)
 			$(V)printf "$(GREEN)Linking obj and Libraries.$(WHITE)\n"
 
 $(REAL)/%.o:	$(SRC_DIR)/%.c
+		$(V)printf "$(BLUE)Compiling [$(GREEN)$(notdir $<)$(BLUE) -> $(RED)$(notdir $@)$(BLUE)]\n$(WHITE)"
 		$(V)$(CC) -o $@ -c $< $(CFLAGS) $(LDFLAGS)
 
 clean:
 	$(V)rm -rf $(OBJS)
-	$(V)printf "$(ORANGE)removing object files.$(WHITE)\n"
+	$(V)printf "$(ORANGE)Removing object files.$(WHITE)\n"
 
 fclean:	clean
 	$(V)rm -f $(REAL)/$(NAME)
 	$(V)rm -f $(ROOT)/$(NAME)
-	$(V)printf "$(ORANGE)removing binary file.$(WHITE)\n"
+	$(V)printf "$(ORANGE)Removing binary file.$(WHITE)\n"
 
 buildrepo:
 		$(call make-repo)
@@ -102,7 +106,7 @@ echo_build:	echo_debug
 
 echo_debug:
 		$(V)if [ $(DEB) == 1 ]; then\
-			printf "$(RED)debug mode initialized.$(WHITE)\n";\
+			printf "$(RED)Debug mode initialized.$(WHITE)\n";\
 		fi
 
 .PHONY: clean fclean debug all re echo_build echo_debug buildrepo

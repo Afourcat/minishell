@@ -9,6 +9,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void alloc_parser(char *str, int *k, int *j);
+void assigne_parser(char *str, int *j, int *k, char *word_array);
+	
+
 int free_cmd(char **cmd, int nbr)
 {
 	for (int i = 0; i < nbr + 1; ++i)
@@ -23,10 +27,11 @@ static void assigne_word(int nbstr, char *str, char **word_array)
 	int j = -1;
 	
 	for (int i = 0; i < nbstr; i++, k = 0) {
-		while (str[++j] != ' ' && str[j] != '\0')
-			word_array[i][k++] = str[j];
-		word_array[i][k + 1] = 0;
-		while (str[j] == ' ' && str[j + 1] == ' ')
+		while (str[++j] != '\0' && str[j] != ' ') {
+			assigne_parser(str, &j, &k, word_array[i]);
+		}
+		word_array[i][k] = 0;
+		while ((str[j] == ' ' || str[j] == '"') && str[j + 1] == ' ')
 			j++;
 	}
 }
@@ -37,13 +42,25 @@ void alloc_words(int nbstr, char *str, char **word_array, int *i)
 	int k = -1;
 	
 	for (*i = 0; *i < nbstr; ++(*i), j = 0) {
-		while (str[++k] != ' ' && str[k] != '\0')
-			j++;
+		while (str[++k] != '\0' && str[k] != ' ') {
+			alloc_parser(str, &k, &j);
+			k++;
+		}
 		word_array[*i] = my_calloc(sizeof(char) * (j + 2));
-		while (str[k] == ' ' && str[k + 1] == ' ')
+		while ((str[k] == ' ' || str[k] == '"') && str[k + 1] == ' ')
 			k++;
 	}	
 }
+
+int count_quote(char *str, int *i)
+{
+	int nb = 0;
+	
+	while (str[++(*i)] != '\0' && str[*i] != '"') {
+		nb++;
+	}
+	return (nb);
+}	     
 
 char **command_parser(char *str, int *nb)
 {
@@ -52,7 +69,9 @@ char **command_parser(char *str, int *nb)
 	char **word_array = NULL;
 	
 	while (str[++i])
-		if (str[i] == ' ' && str[i + 1] != ' ')
+		if (str[i] == '"')
+			nbstr += count_quote(str, &i);
+		else if (str[i] == ' ' && str[i + 1] != ' ')
 			nbstr++;
 	word_array = my_calloc(sizeof(char*) * (nbstr + 2));
 	alloc_words(nbstr, str, word_array, &i);

@@ -35,7 +35,6 @@ int my_exec(char **cmd, char *prog, struct env_t *env)
 	else if (pid == 0) {
 		signal(SIGINT, &signal_child);
 		execve(prog, cmd, etsa(env));
-		my_printf("test_1");
 		exit(0);
 	} else {
 		is_fork = 1;
@@ -56,7 +55,7 @@ static int my_sh(char *cmd[], struct env_t *env)
 	else 
 		prog = parse_dot(cmd[0]);
 	if (prog == NULL)
-		my_printf("%s: no program found\n", cmd[0]);
+		my_printf("%s: Command not found.\n", cmd[0]);
 	else
 		my_exec(cmd, prog, env);
 	return (0);
