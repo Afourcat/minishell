@@ -28,8 +28,8 @@ int my_setenv(char *cmd[], struct env_t *env)
 		else
 			env_push_two_part(env, cmd[1], "");
 		return (0);
-	} else if (size > 3) {
-		write(2, "setenv: Too many arguments.\n", 31);
+	} else if (size > 4) {
+		write(2, "setenv: Too many arguments.\n", 29);
 		return (1);
 	} else {
 		env_push_two_part(env, cmd[1], cmd[2]);

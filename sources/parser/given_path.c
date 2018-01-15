@@ -41,7 +41,8 @@ int transform_parser(char *cmd[], struct env_t *env)
 
 	while (cmd[++i] != 0) {
 		if (cmd[i][0] == '~') {
-			ret = change_tilde_home(cmd[i], env_get_value(env, "HOME"));
+			ret = change_tilde_home(cmd[i],			\
+						env_get_value(env, "HOME"));
 			free(cmd[i]);
 			cmd[i] = my_strdup(ret);
 		} else if (cmd[i][0] == '$') {
