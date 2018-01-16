@@ -90,7 +90,6 @@ int main(UNUSED int argc, UNUSED char *argv[], char *envp[])
 	int end = 0;
 	char **cmd = NULL;
 	int nbr = 0;
-	int i = -1;
 	struct env_t *env = env_create(envp);
 
 	set_signal(env);
