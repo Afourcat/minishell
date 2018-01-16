@@ -57,7 +57,7 @@ int my_cd(char *cmd[], struct env_t *env)
 	ret = choose_case(env, cmd);
 	if (ret == -1) {
 		my_printf("%s", cmd[1]);
-		perror(" :");
+		perror(" ");
 	} else {
 		env_pop(env, "OLDPWD");
 		env_push_two_part(env, "OLDPWD", env_get_value(env, "PWD"));
