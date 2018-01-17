@@ -25,10 +25,10 @@ void assigne_parser(char *str, int *j, int *k, char *word_array)
 	if (str[*j] == '"') {
 		(*j)++;
 		while (str[*j] != '\0' && str[*j] != '"') {
-			word_array[(*k)++] = str[*j];
-			(*j)++;
+			word_array[(*k)++] = str[(*j)++];
 		}
 	} else {
-		word_array[(*k)++] = str[*j];
+		word_array[(*k)] = str[*j];
+		(*k)++;
 	}
 }

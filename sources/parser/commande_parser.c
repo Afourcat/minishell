@@ -34,7 +34,8 @@ static void assigne_word(int nbstr, char *str, char **word_array)
 			assigne_parser(str, &j, &k, word_array[i]);
 		}
 		word_array[i][k] = 0;
-		while ((str[j] == ' ' || str[j] == '"') && str[j + 1] == ' ')
+		while ((str[j] == ' ' || str[j] == '"') &&
+		       (str[j + 1] == ' ' && str[j + 1] != '\0'))
 			j++;
 	}
 }
@@ -42,15 +43,17 @@ static void assigne_word(int nbstr, char *str, char **word_array)
 void alloc_words(int nbstr, char *str, char **word_array, int *i)
 {
 	int j = 0;
-	int k = -1;
-	
-	for (*i = 0; *i < nbstr; ++(*i), j = 0) {
-		while (str[++k] != '\0' && str[k] != ' ') {
+	int k = 0;
+
+	for (*i = 0; *i < nbstr; (*i)++) {
+		j = 0;
+		while (str[k] != '\0' && str[k] != ' ') {
 			alloc_parser(str, &k, &j);
 			k++;
 		}
-		word_array[*i] = my_calloc(sizeof(char) * (j + 3));
-		while ((str[k] == ' ' || str[k] == '"') && str[k + 1] == ' ')
+		word_array[*i] = my_calloc(sizeof(char) * (j + 20));
+		while ((str[k] == ' ' || str[k] == '"') &&
+		       (str[k + 1] == ' ' && str[k + 1] != '\0'))
 			k++;
 	}	
 }
