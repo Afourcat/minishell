@@ -69,7 +69,11 @@ char **command_parser(char *str, int *nb)
 	int i = -1;
 	int nbstr = 1;
 	char **word_array = NULL;
-	
+
+	while (str[++i])
+		if (str[i] == '\t')
+			str[i] = ' ';
+	i = 0;
 	while (str[++i])
 		if (str[i] == '"')
 			count_quote(str, &i);
@@ -78,7 +82,6 @@ char **command_parser(char *str, int *nb)
 			nbstr++;
 	word_array = my_calloc(sizeof(char*) * (nbstr + 2));
 	alloc_words(nbstr, str, word_array, &i);
-//	word_array[i + 1] = my_calloc(sizeof(char) * 2);
 	word_array[i + 1] = 0;
 	assigne_word(nbstr, str, word_array);
 	*nb = nbstr;
