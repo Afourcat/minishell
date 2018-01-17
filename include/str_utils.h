@@ -15,5 +15,7 @@ char *my_strcpy(char *dest, char *str);
 char *my_strdup(const char *str);
 char *str_swipe(char *ret, int where, int offset);
 char *change_tilde_home(char *str, char *home);
+int my_atoi(char const *str);
+char *my_itoa(int nbr);
 
 #endif /* STR_UTILS_H */

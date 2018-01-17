@@ -20,10 +20,10 @@
 #include "minishell.h"
 #include "my_signal.h"
 #include "environment.h"
+#include "error.h"
 
 int my_exec(char **cmd, char *prog, struct env_t *env)
 {
-	int status = 0;
 	pid_t pid = -1;
 	static pid_t is_fork = 0;
 
@@ -35,10 +35,9 @@ int my_exec(char **cmd, char *prog, struct env_t *env)
 	else if (pid == 0) {
 		signal(SIGINT, &signal_child);
 		execve(prog, cmd, etsa(env));
-		exit(0);
 	} else {
 		is_fork = 1;
-		waitpid(pid, &status, 0);
+		check_error(pid, env);
 	}
 	return (0);
 }
@@ -53,7 +52,7 @@ static int my_sh(char *cmd[], struct env_t *env)
 	else if (type_cmd == 1)
 		prog = my_strdup(cmd[0]);
 	else 
-		prog = parse_dot(cmd[0]);
+		prog = my_strdup(parse_dot(cmd[0]));
 	if (prog == NULL) {
 		write(2, cmd[0], my_strsize(cmd[0]));
 		write(2, ": Command not found.\n", 23);

@@ -28,6 +28,7 @@ SRC	=	$(SRC_DIR)/mysh.c			\
 		$(SRC_DIR)/utils/utils.c		\
 		$(SRC_DIR)/signal/signal.c		\
 		$(SRC_DIR)/environment/environment.c	\
+		$(SRC_DIR)/error/check_status.c		\
 		$(SRC_DIR)/environment/environment_2.c	\
 		$(SRC_DIR)/environment/PS1/cpy_prompt.c	\
 		$(SRC_DIR)/parser/cut_cmd.c
