@@ -31,6 +31,7 @@ static int choose_case(struct env_t *env, char *cmd[])
 {
 	int ret = 0;
 	char *home = NULL;
+	char *were = NULL;
 	
 	if (cmd[1] == 0x0) {
 		home = env_get_value(env, "HOME");
@@ -40,7 +41,9 @@ static int choose_case(struct env_t *env, char *cmd[])
 		if (cmd[1][0] == '-' && cmd[1][1] == '\0') {
 			ret = chdir(env_get_value(env, "OLDPWD"));
 		} else if (cmd[1][0]) {
-			ret = chdir(get_were(cmd[1]));
+			were = get_were(cmd[1]);
+			ret = chdir(were);
+			free(were);
 		}
 	} else {
 		ret = chdir(cmd[1]);

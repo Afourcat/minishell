@@ -54,10 +54,12 @@ static int my_sh(char *cmd[], struct env_t *env)
 		prog = my_strdup(cmd[0]);
 	else 
 		prog = parse_dot(cmd[0]);
-	if (prog == NULL)
-		my_printf("%s: Command not found.\n", cmd[0]);
-	else
+	if (prog == NULL) {
+		write(2, cmd[0], my_strsize(cmd[0]));
+		write(2, ": Command not found.\n", 23);
+	} else
 		my_exec(cmd, prog, env);
+	free(prog);
 	return (0);
 }
 
@@ -78,7 +80,7 @@ char *get_command_line(char *str, struct env_t *env)
 		free(str);
 		str = get_next_line(0);
 		if (str == NULL) 
-			signal_quit(3);	
+			signal_quit(3, env);	
 	}
 	return (str);
 }
@@ -100,9 +102,10 @@ int main(UNUSED int argc, UNUSED char *argv[], char *envp[])
 		transform_parser(cmd, env);
 		if (built_in(cmd, env))
 			my_sh(cmd, env);
-		free_cmd(cmd, nbr);
+		free_cmd(cmd);
 		str[0] = '\0';
 	}
+	env_free(env);
 	return (0);
 }
 #endif /* TEST_MACRO */

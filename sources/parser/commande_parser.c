@@ -13,10 +13,13 @@ void alloc_parser(char *str, int *k, int *j);
 void assigne_parser(char *str, int *j, int *k, char *word_array);
 	
 
-int free_cmd(char **cmd, int nbr)
+int free_cmd(char **cmd)
 {
-	for (int i = 0; i < nbr + 1; ++i)
+	int i = -1;
+	
+	while (cmd[++i] != 0)
 		free(cmd[i]);
+	free(cmd[++i]);
 	free(cmd);
 	return (0);
 }
@@ -46,7 +49,7 @@ void alloc_words(int nbstr, char *str, char **word_array, int *i)
 			alloc_parser(str, &k, &j);
 			k++;
 		}
-		word_array[*i] = my_calloc(sizeof(char) * (j + 2));
+		word_array[*i] = my_calloc(sizeof(char) * (j + 3));
 		while ((str[k] == ' ' || str[k] == '"') && str[k + 1] == ' ')
 			k++;
 	}	
@@ -72,7 +75,7 @@ char **command_parser(char *str, int *nb)
 			nbstr++;
 	word_array = my_calloc(sizeof(char*) * (nbstr + 2));
 	alloc_words(nbstr, str, word_array, &i);
-	word_array[i + 1] = my_calloc(sizeof(char) * 2);
+//	word_array[i + 1] = my_calloc(sizeof(char) * 2);
 	word_array[i + 1] = 0;
 	assigne_word(nbstr, str, word_array);
 	*nb = nbstr;

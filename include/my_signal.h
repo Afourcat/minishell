@@ -10,7 +10,7 @@
 
 #include "environment.h"
 
-void signal_quit(int signum);
+void signal_quit(int signum, struct env_t *env);
 void signal_child(int signum);
 void set_signal(struct env_t *env);
 char *prompt_save(char *prompt);

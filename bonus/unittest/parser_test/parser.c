@@ -15,7 +15,7 @@ Test(command_parser, basic_command_test)
 	char **cmd = command_parser(command, &nb);
 
 	cr_assert_str_eq(cmd[0], "ls", "should be ls but it's %s", cmd[0]);
-	free_cmd(cmd, nb);
+	free_cmd(cmd);
 }
 
 Test(command_parser, basic_test_2)
@@ -29,7 +29,7 @@ Test(command_parser, basic_test_2)
 			 "Should be folder/ but it's %s", cmd[1]);
 	cr_assert_str_eq(cmd[2], "/dev/null", \
 			 "Should be /dev/null but it's %s", cmd[2]);
-	free_cmd(cmd, nb);
+	free_cmd(cmd);
 }
 
 Test(command_parser, nb_cmd)
@@ -39,7 +39,7 @@ Test(command_parser, nb_cmd)
 	char **cmd = command_parser(command, &nb);
 
 	cr_assert_eq(nb, 7, "Should be 7 and it's %d", nb);
-	free_cmd(cmd, nb);	
+	free_cmd(cmd);	
 }
 
 
@@ -54,5 +54,5 @@ Test(command_parser, multiple_space)
 			 "Should be folder/ but it's %s", cmd[1]);
 	cr_assert_str_eq(cmd[2], "/dev/null", \
 			 "Should be /dev/null but it's %s", cmd[2]);
-	free_cmd(cmd, nb);
+	free_cmd(cmd);
 }

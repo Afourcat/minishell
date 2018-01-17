@@ -31,12 +31,7 @@ struct env_t *get_set_env(struct env_t *env)
 
 void signal_shell(UNUSED int signum)
 {
-	if (my_exec(NULL, NULL, NULL)) {
-		write(1, "\n", 1);
-		generate_prompt(get_set_env(NULL));
-	} else {
-		write(1, "\n", 1);
-	}
+	write(1, "\n", 1);
 }
 
 void signal_child(UNUSED int signum) 
@@ -48,9 +43,10 @@ void signal_child(UNUSED int signum)
 	exit(0);
 }
 
-void signal_quit(UNUSED int signum)
+void signal_quit(UNUSED int signum, struct env_t *env)
 {
 	my_printf("exit\n");
+	env_free(env);
 	exit(0);
 }
 

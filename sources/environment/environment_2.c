@@ -11,6 +11,24 @@
 #include "str_utils.h"
 #include "utils.h"
 
+int env_free(struct env_t *env)
+{
+	struct env_t *temp = env;
+	struct env_t *prev = temp;
+
+	while (temp->next != NULL) {
+		prev = temp;
+		temp = temp->next;
+		free(prev->name);
+		free(prev->value);
+		free(prev);
+	}
+	free(temp->name);
+	free(temp->value);
+	free(temp);
+	return (0);
+}
+
 int env_get_size(struct env_t *env)
 {
 	struct env_t *temp = env;
