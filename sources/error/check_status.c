@@ -11,6 +11,9 @@
 #include <sys/wait.h>
 #include <errno.h>
 #include <stdio.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include "environment.h"
 #include "str_utils.h"
 
@@ -34,6 +37,30 @@ int check_error(int pid, struct env_t *env)
 			write(2, "Segmentation fault\n", 20);
 		else if (WCOREDUMP(status))
 			write(2, "Segmentation fault\n", 20);
+	}
+	return (0);
+}
+
+void my_perror(const char *str)
+{
+	char *error = strerror(errno);
+
+	write(2, str, my_strsize(str));
+	write(2, ": ", 2);
+	write(2, error, my_strsize(error));
+	write(2,".\n", 2);     
+}
+
+int is_dir(char *prog)
+{
+	struct stat stats;
+	
+	if (stat(prog, &stats) != -1) {
+		if (S_ISDIR(stats.st_mode)) {
+			write(2, prog, my_strsize(prog));
+			write(2, ": Permission denied.\n", 21);
+			return (1);
+		}
 	}
 	return (0);
 }

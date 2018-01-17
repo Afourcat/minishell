@@ -51,19 +51,20 @@ static int my_sh(char *cmd[], struct env_t *env)
 		prog = get_function(cmd[0], env);
 	else if (type_cmd == 1)
 		prog = my_strdup(cmd[0]);
-	else 
+	else
 		prog = my_strdup(parse_dot(cmd[0]));
 	if (prog == NULL) {
 		write(2, cmd[0], my_strsize(cmd[0]));
 		write(2, ": Command not found.\n", 23);
-	} else
+	} else if (!is_dir(prog)) {
 		my_exec(cmd, prog, env);
+	}
 	free(prog);
 	return (0);
 }
 
 static int built_in(char *cmd[], struct env_t *env)
-{	
+{
 	for (int i = 0; i < BUILT_IN_NB; ++i)
 		if (my_strcmp(BUILT_IN_STR[i], cmd[0])) {
 			BUILT_IN[i](cmd, env);
@@ -78,8 +79,8 @@ char *get_command_line(char *str, struct env_t *env)
 		generate_prompt(env);
 		free(str);
 		str = get_next_line(0);
-		if (str == NULL) 
-			signal_quit(3, env);	
+		if (str == NULL)
+			signal_quit(3, env);
 	}
 	return (str);
 }

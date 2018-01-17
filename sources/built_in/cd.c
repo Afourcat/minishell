@@ -8,10 +8,13 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <string.h>
 #include "my_printf.h"
 #include "str_utils.h"
 #include "utils.h"
 #include "environment.h"
+#include "error.h"
 
 char *get_were(char *file)
 {
@@ -32,7 +35,7 @@ static int choose_case(struct env_t *env, char *cmd[])
 	int ret = 0;
 	char *home = NULL;
 	char *were = NULL;
-	
+
 	if (cmd[1] == 0x0) {
 		home = env_get_value(env, "HOME");
 		ret = chdir(home);
@@ -56,11 +59,10 @@ int my_cd(char *cmd[], struct env_t *env)
 {
 	int ret = 0;
 	char *cwd = NULL;
-	
+
 	ret = choose_case(env, cmd);
 	if (ret == -1) {
-		my_printf("%s", cmd[1]);
-		perror(" ");
+		my_perror(cmd[1]);
 	} else {
 		env_pop(env, "OLDPWD");
 		env_push_two_part(env, "OLDPWD", env_get_value(env, "PWD"));
