@@ -27,10 +27,8 @@
 int my_exec(char **cmd, char *prog, struct env_t *env)
 {
 	pid_t pid = -1;
-	static pid_t is_fork = 0;
-
-	if (env == NULL)
-		return (is_fork);
+	int status = 0;
+	
 	pid = fork();
 	if (pid < 0)
 		perror("fork");
@@ -42,8 +40,9 @@ int my_exec(char **cmd, char *prog, struct env_t *env)
 		write(2, strerror(errno), my_strsize(strerror(errno)));
 		write(2, ". Wrong Architecture.\n", 22);
 	} else {
-		is_fork = 1;
-		check_error(pid, env);
+		if (wait(&status) == -1)
+			my_perror("wait");
+		check_error(status, env);
 	}
 	return (0);
 }
@@ -61,7 +60,7 @@ static int my_sh(char *cmd[], struct env_t *env)
 		prog = my_strdup(parse_dot(cmd[0]));
 	if (prog == NULL) {
 		write(2, cmd[0], my_strsize(cmd[0]));
-		write(2, ": Command not found.\n", 23);
+		write(2, ": Command not found.\n", 21);
 	} else if (!is_dir(prog)) {
 		my_exec(cmd, prog, env);
 	}
@@ -81,12 +80,19 @@ static int built_in(char *cmd[], struct env_t *env)
 
 char *get_command_line(char *str, struct env_t *env)
 {
+	int i = -1;
+	
 	while (str[0] == '\0') {
-		generate_prompt(env);
+		i = -1;
+		write(1, "$> ", 3);
 		free(str);
 		str = get_next_line(0);
 		if (str == NULL)
 			signal_quit(3, env);
+		while ((str[++i] == ' ' || str[i] == '\t' ) &&
+		       (str[i] != '\0'));
+		if (str[i] == '\0')
+			str[0] = '\0';
 	}
 	return (str);
 }

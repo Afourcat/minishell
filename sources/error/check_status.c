@@ -16,18 +16,12 @@
 #include <fcntl.h>
 #include "environment.h"
 #include "str_utils.h"
+#include "error.h"
 
-int check_error(int pid, struct env_t *env)
+int check_error(int status, struct env_t *env)
 {
 	char *nb = NULL;
-	int status = 0;
-	int w = 0;
 	
-	w = waitpid(pid, &status, 0);
-	if (w == -1) {
-		perror("waitpid");
-		exit(84);
-	}
 	if (status == 11 || status == 139) {
 		write(2, "Segmentation fault\n", 20);
 		nb = my_itoa(WEXITSTATUS(status));
@@ -39,18 +33,6 @@ int check_error(int pid, struct env_t *env)
 		env_push_two_part(env, "?", nb);
 		free(nb);
 	}
-        // 11 139
-	//8 136
-	/*
-	if (WIFEXITED(status)) {
-		
-	} else if (WIFSIGNALED(status)) {
-		if (WTERMSIG(status))
-		write(2, "Segmentation fault\n", 20);
-		else if (WCOREDUMP(status))
-			write(2, "Segmentation fault\n", 20);
-	}
-	*/
 	return (0);
 }
 

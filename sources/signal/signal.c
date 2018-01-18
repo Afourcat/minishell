@@ -31,7 +31,7 @@ struct env_t *get_set_env(struct env_t *env)
 
 void signal_shell(UNUSED int signum)
 {
-	//write(1, "\n", 1);
+	write(1, "\n$> ", 4);
 }
 
 void signal_child(UNUSED int signum) 
