@@ -34,7 +34,7 @@ int check_error(int pid, struct env_t *env)
 		env_push_two_part(env, "?", nb);
 		free(nb);
 	} else if (status == 8 || status == 136) {
-		write(2, "Floating point exception\n", 25);
+		write(2, "Floating exception\n", 19);
 		nb = my_itoa(WEXITSTATUS(status));
 		env_push_two_part(env, "?", nb);
 		free(nb);

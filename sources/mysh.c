@@ -13,6 +13,8 @@
 #include <sys/types.h>
 #include <sys/resource.h>
 #include <sys/time.h>
+#include <string.h>
+#include <errno.h>
 #include "gnl.h"
 #include "my_printf.h"
 #include "str_utils.h"
@@ -31,10 +33,14 @@ int my_exec(char **cmd, char *prog, struct env_t *env)
 		return (is_fork);
 	pid = fork();
 	if (pid < 0)
-		perror("fork ");
+		perror("fork");
 	else if (pid == 0) {
 		signal(SIGINT, &signal_child);
 		execve(prog, cmd, etsa(env));
+		write(2, prog, my_strsize(prog));
+		write(2, ": ", 2);
+		write(2, strerror(errno), my_strsize(strerror(errno)));
+		write(2, ". Wrong Architecture.\n", 22);
 	} else {
 		is_fork = 1;
 		check_error(pid, env);
