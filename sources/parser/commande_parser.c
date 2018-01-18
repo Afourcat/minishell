@@ -28,7 +28,9 @@ static void assigne_word(int nbstr, char *str, char **word_array)
 {
 	int k = 0;
 	int j = -1;
-	
+
+	while (str[++j] == ' ');
+	j -= 1;
 	for (int i = 0; i < nbstr; i++, k = 0) {
 		while (str[++j] != '\0' && str[j] != ' ') {
 			assigne_parser(str, &j, &k, word_array[i]);
@@ -45,6 +47,7 @@ void alloc_words(int nbstr, char *str, char **word_array, int *i)
 	int j = 0;
 	int k = 0;
 
+	while (str[k++] == ' ');
 	for (*i = 0; *i < nbstr; (*i)++) {
 		j = 0;
 		while (str[k] != '\0' && str[k] != ' ') {
@@ -70,10 +73,10 @@ char **command_parser(char *str, int *nb)
 	int nbstr = 1;
 	char **word_array = NULL;
 
-	while (str[++i])
-		if (str[i] == '\t')
-			str[i] = ' ';
-	i = 0;
+	while (str[++i]) 
+		str[i] = (str[i] == '\t') ? ' ' : str[i];
+	i = -1;
+	while (str[++i] == ' ');
 	while (str[++i])
 		if (str[i] == '"')
 			count_quote(str, &i);

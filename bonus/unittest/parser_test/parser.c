@@ -7,10 +7,11 @@
 
 #include <criterion/criterion.h>
 #include "command_parser.h"
+#include "str_utils.h"
 
 Test(command_parser, basic_command_test)
 {
-	char *command = "ls -l -a -R /dev/";
+	char *command = my_strdup("ls -l -a -R /dev/");
 	int nb = 0;
 	char **cmd = command_parser(command, &nb);
 
@@ -20,7 +21,7 @@ Test(command_parser, basic_command_test)
 
 Test(command_parser, basic_test_2)
 {
-	char *command = "cp folder/ /dev/null";
+	char *command = my_strdup("cp folder/ /dev/null");
 	int nb = 0;
 	char **cmd = command_parser(command, &nb);
 
@@ -34,7 +35,7 @@ Test(command_parser, basic_test_2)
 
 Test(command_parser, nb_cmd)
 {
-	char *command = "cp folder/ /dev/null allo ze zzzzz aaazezae";
+	char *command = my_strdup("cp folder/ /dev/null allo ze zzzzz aaazezae");
 	int nb = 0;
 	char **cmd = command_parser(command, &nb);
 
@@ -45,7 +46,7 @@ Test(command_parser, nb_cmd)
 
 Test(command_parser, multiple_space)
 {
-	char *command = "cp   folder/ /dev/null";
+	char *command = my_strdup("cp   folder/ /dev/null");
 	int nb = 0;
 	char **cmd = command_parser(command, &nb);
 

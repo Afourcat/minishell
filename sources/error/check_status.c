@@ -28,16 +28,29 @@ int check_error(int pid, struct env_t *env)
 		perror("waitpid");
 		exit(84);
 	}
-	if (WIFEXITED(status)) {
+	if (status == 11 || status == 139) {
+		write(2, "Segmentation fault\n", 20);
 		nb = my_itoa(WEXITSTATUS(status));
 		env_push_two_part(env, "?", nb);
 		free(nb);
+	} else if (status == 8 || status == 136) {
+		write(2, "Floating point exception\n", 25);
+		nb = my_itoa(WEXITSTATUS(status));
+		env_push_two_part(env, "?", nb);
+		free(nb);
+	}
+        // 11 139
+	//8 136
+	/*
+	if (WIFEXITED(status)) {
+		
 	} else if (WIFSIGNALED(status)) {
 		if (WTERMSIG(status))
-			write(2, "Segmentation fault\n", 20);
+		write(2, "Segmentation fault\n", 20);
 		else if (WCOREDUMP(status))
 			write(2, "Segmentation fault\n", 20);
 	}
+	*/
 	return (0);
 }
 
