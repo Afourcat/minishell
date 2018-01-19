@@ -24,19 +24,17 @@
 #include "error.h"
 #include "get_next_line.h"
 
-int my_exec(char **cmd, char *prog, struct env_t *env)
+void my_exec(char **cmd, char *prog, struct env_t *env)
 {
 	pid_t pid = -1;
 	int status = 0;
-	int err = 0;
 	
 	pid = fork();
 	if (pid < 0)
 		perror("fork");
 	else if (pid == 0) {
-		signal(SIGINT, &signal_child);
-		err = execve(prog, cmd, etsa(env));
-		if (err == -1) {
+		signal(SIGINT, &signal_child);		
+		if (execve(prog, cmd, etsa(env)) == -1) {
 			write(2, prog, my_strsize(prog));
 			write(2, ": ", 2);
 			write(2, strerror(errno), my_strsize(strerror(errno)));
@@ -48,7 +46,6 @@ int my_exec(char **cmd, char *prog, struct env_t *env)
 			my_perror("wait");
 		check_error(status, env);
 	}
-	return (0);
 }
 
 static int my_sh(char *cmd[], struct env_t *env)
