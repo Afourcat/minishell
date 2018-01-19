@@ -26,10 +26,11 @@ int given_path(const char *str)
 char *parse_dot(const char *str)
 {
 	int i = 0;
-	char *prog = my_calloc(sizeof(char) * (my_strsize((char*)str)));
+	char *prog = my_calloc(sizeof(char) * (my_strsize((char*)str) + 2));
 
 	while (str[++i])
-		prog[i - 2] = str[i];
+		if (i >= 2)
+			prog[i - 2] = str[i];
 	prog[i + 1] = '\0';
 	return (prog);
 }

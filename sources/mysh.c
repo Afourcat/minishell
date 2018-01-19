@@ -39,10 +39,10 @@ void my_exec(char **cmd, char *prog, struct env_t *env)
 			write(2, ": ", 2);
 			write(2, strerror(errno), my_strsize(strerror(errno)));
 			write(2, ". Wrong Architecture.\n", 22);
-			exit(84);
 		}
+		exit(84);
 	} else {
-		if (wait(&status) == -1)
+		if (waitpid(pid, &status, 0) == -1)
 			my_perror("wait");
 		check_error(status, env);
 	}
@@ -58,7 +58,7 @@ static int my_sh(char *cmd[], struct env_t *env)
 	else if (type_cmd == 1)
 		prog = my_strdup(cmd[0]);
 	else
-		prog = my_strdup(parse_dot(cmd[0]));
+		prog = parse_dot(cmd[0]);
 	if (prog == NULL) {
 		write(2, cmd[0], my_strsize(cmd[0]));
 		write(2, ": Command not found.\n", 21);
@@ -85,7 +85,8 @@ char *get_command_line(char *str, struct env_t *env)
 	
 	while (str[0] == '\0') {
 		i = -1;
-		write(1, "$> ", 3);
+		if (isatty(0))
+			write(1, "$> ", 3);
 		free(str);
 		str = get_next_line(0);
 		if (str == NULL)
