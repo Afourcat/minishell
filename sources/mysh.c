@@ -28,17 +28,21 @@ int my_exec(char **cmd, char *prog, struct env_t *env)
 {
 	pid_t pid = -1;
 	int status = 0;
+	int err = 0;
 	
 	pid = fork();
 	if (pid < 0)
 		perror("fork");
 	else if (pid == 0) {
 		signal(SIGINT, &signal_child);
-		execve(prog, cmd, etsa(env));
-		write(2, prog, my_strsize(prog));
-		write(2, ": ", 2);
-		write(2, strerror(errno), my_strsize(strerror(errno)));
-		write(2, ". Wrong Architecture.\n", 22);
+		err = execve(prog, cmd, etsa(env));
+		if (err == -1) {
+			write(2, prog, my_strsize(prog));
+			write(2, ": ", 2);
+			write(2, strerror(errno), my_strsize(strerror(errno)));
+			write(2, ". Wrong Architecture.\n", 22);
+			exit(84);
+		}
 	} else {
 		if (wait(&status) == -1)
 			my_perror("wait");
