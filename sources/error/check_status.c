@@ -23,7 +23,7 @@ int check_error(int status, struct env_t *env)
 	char *nb = NULL;
 	
 	if (status == 11 || status == 139) {
-		write(2, "Segmentation fault\n", 20);
+		write(2, "Segmentation fault\n", 19);
 		nb = my_itoa(WEXITSTATUS(status));
 		env_push_two_part(env, "?", nb);
 		free(nb);

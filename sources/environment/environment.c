@@ -60,7 +60,7 @@ struct env_t *env_create(char *envp[])
 	int i = -1;
 	struct env_t *env = my_malloc(sizeof(struct env_t));
 
-	env->next = 0;
+	env->next = NULL;
 	env->name = my_strdup("(nil)");
 	env->value = my_strdup("(nil)");
 	while (envp[++i] != 0)
