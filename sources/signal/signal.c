@@ -31,7 +31,7 @@ struct env_t *get_set_env(struct env_t *env)
 
 void signal_shell(UNUSED int signum)
 {
-	write(1, "\n$> ", 4);
+		write(1, "\n$> ", 4);
 }
 
 void signal_child(UNUSED int signum) 
@@ -44,7 +44,8 @@ void signal_child(UNUSED int signum)
 
 void signal_quit(UNUSED int signum, struct env_t *env)
 {
-	my_printf("exit\n");
+	if (isatty(0))
+		my_printf("exit\n");
 	env_free(env);
 	exit(0);
 }
