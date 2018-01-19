@@ -50,6 +50,11 @@ int is_dir(char *prog)
 {
 	struct stat stats;
 	
+	if (access(prog, F_OK) == -1) {
+		write(2, prog, my_strsize(prog));
+		write(2, ": Command not found.\n", 21);
+		return(1);
+	}	
 	if (stat(prog, &stats) != -1) {
 		if (S_ISDIR(stats.st_mode)) {
 			write(2, prog, my_strsize(prog));

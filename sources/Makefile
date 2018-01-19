@@ -26,6 +26,7 @@ SRC	=	$(SRC_DIR)/mysh.c			\
 		$(SRC_DIR)/utils/str_utils.c		\
 		$(SRC_DIR)/utils/str_utils_2.c		\
 		$(SRC_DIR)/utils/utils.c		\
+		$(SRC_DIR)/utils/get_next_line.c	\
 		$(SRC_DIR)/signal/signal.c		\
 		$(SRC_DIR)/environment/environment.c	\
 		$(SRC_DIR)/error/check_status.c		\
@@ -37,7 +38,7 @@ WARN	=	-W -Wall -Wextra
 
 CFLAGS	=	-I $(ROOT)/include $(WARN)
 
-LDFLAGS	=	-L $(ROOT)/library -l myprintf -l gnl
+LDFLAGS	=	-L $(ROOT)/library -l myprintf
 
 LIB	?=	1
 

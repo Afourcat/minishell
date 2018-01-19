@@ -15,7 +15,6 @@
 #include <sys/time.h>
 #include <string.h>
 #include <errno.h>
-#include "gnl.h"
 #include "my_printf.h"
 #include "str_utils.h"
 #include "command_parser.h"
@@ -23,6 +22,7 @@
 #include "my_signal.h"
 #include "environment.h"
 #include "error.h"
+#include "get_next_line.h"
 
 int my_exec(char **cmd, char *prog, struct env_t *env)
 {

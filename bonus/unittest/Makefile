@@ -42,6 +42,7 @@ SRC     	=       $(SRC_DIR)/mysh.c                       \
 	                $(SRC_DIR)/parser/given_path.c          \
 	                $(SRC_DIR)/utils/str_utils.c            \
 		        $(SRC_DIR)/utils/str_utils_2.c          \
+		        $(SRC_DIR)/utils/get_next_line.c          \
 			$(SRC_DIR)/error/check_status.c		\
 	                $(SRC_DIR)/utils/utils.c                \
 		        $(SRC_DIR)/signal/signal.c              \
@@ -61,7 +62,7 @@ MACRO		=	-D TEST_MACRO
 
 CFLAGS		=	-g -I $(ROOT)/include --coverage $(MACRO)
 
-LDFLAGS		=	-L $(ROOT)/library -l myprintf -l gnl -l criterion
+LDFLAGS		=	-L $(ROOT)/library -l myprintf -l criterion
 
 NAME		=	test
 
