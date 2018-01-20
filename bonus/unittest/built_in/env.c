@@ -15,7 +15,7 @@ Test(env_create, basic_test_env)
 	struct env_t *env = env_create(env_arr);
 	char *lolo = env_get_value(env, "LOLO");
 
-	cr_assert_str_eq(lolo, "lalala", "Should be lalala but it's %s\n", lolo);
+	cr_assert_str_eq(lolo, "lalala", "Should be lalala but %s\n", lolo);
 }
 
 Test(env_create, multiple_test)
@@ -27,11 +27,14 @@ Test(env_create, multiple_test)
 	char *path = env_get_value(env, "PATH");
 	char *name = env_get_value(env, "NAME");
 	char *roger = env_get_value(env, "ROGER");
-	
-	cr_assert_str_eq(lolo, "lalala", "Should be lalala but it's %s\n", lolo);
-	cr_assert_str_eq(path, "/bin/:/home/afourcat/bin/", "Should be lalala but it's %s\n", path);
-	cr_assert_str_eq(name, "salut comment tu vas", "Should be lalala but it's %s\n", name);
-	cr_assert_str_eq(roger, "bartoo", "Should be lalala but it's %s\n", roger);
+
+	cr_assert_str_eq(lolo, "lalala", "Should be lalala but %s\n", lolo);
+	cr_assert_str_eq(path, "/bin/:/home/afourcat/bin/",		\
+			 "Should be lalala but it's %s\n", path);
+	cr_assert_str_eq(name, "salut comment tu vas",			\
+			 "Should be lalala but it's %s\n", name);
+	cr_assert_str_eq(roger, "bartoo",				\
+			 "Should be lalala but it's %s\n", roger);
 }
 
 Test(env_push, basic_test)
@@ -40,8 +43,9 @@ Test(env_push, basic_test)
 			   "FOO=BAR", "PATH=/bin/:/home/afourcat/bin/", 0};
 	struct env_t *env = env_create(env_arr);
 	char *polo = NULL;
-	
+
 	env_push(env, "POLO=ralph lau");
 	polo = env_get_value(env, "POLO");
-	cr_assert_str_eq(polo, "ralph lau", "Should be ralph lau but it's %s\n", polo);
+	cr_assert_str_eq(polo, "ralph lau",				\
+			 "Should be ralph lau but it's %s\n", polo);
 }

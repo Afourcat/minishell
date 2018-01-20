@@ -30,7 +30,7 @@ static void assign_name(struct env_t *env, char *value)
 	int j = 0;
 	int size_name = -1;
 	int size_value = 0;
-	
+
 	while (value[++size_name] != '=');
 	env->name = my_calloc(sizeof(char) * (size_name + 2));
 	while (value[size_name + (++size_value)] != '\0');

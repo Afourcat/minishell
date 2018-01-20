@@ -35,14 +35,13 @@ Test(command_parser, basic_test_2)
 
 Test(command_parser, nb_cmd)
 {
-	char *command = my_strdup("cp folder/ /dev/null allo ze zzzzz aaazezae");
+	char *command = my_strdup("cp folder/ /dev/null allo ze zzzzz aaaze");
 	int nb = 0;
 	char **cmd = command_parser(command, &nb);
 
 	cr_assert_eq(nb, 7, "Should be 7 and it's %d", nb);
-	free_cmd(cmd);	
+	free_cmd(cmd);
 }
-
 
 Test(command_parser, multiple_space)
 {

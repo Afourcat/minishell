@@ -5,18 +5,15 @@
 ** commande parser
 */
 
-#include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
-
-void alloc_parser(char *str, int *k, int *j);
-void assigne_parser(char *str, int *j, int *k, char *word_array);
-	
+#include "command_parser.h"
+#include "utils.h"
 
 int free_cmd(char **cmd)
 {
 	int i = -1;
-	
+
 	while (cmd[++i] != 0)
 		free(cmd[i]);
 	free(cmd[++i]);
@@ -58,14 +55,14 @@ void alloc_words(int nbstr, char *str, char **word_array, int *i)
 		while ((str[k] == ' ' || str[k] == '"') &&
 		       (str[k + 1] == ' ' && str[k + 1] != '\0'))
 			k++;
-	}	
+	}
 }
 
 int count_quote(char *str, int *i)
 {
 	while (str[++(*i)] != '\0' && str[*i] != '"');
 	return (0);
-}	     
+}
 
 char **command_parser(char *str, int *nb)
 {
@@ -73,7 +70,7 @@ char **command_parser(char *str, int *nb)
 	int nbstr = 1;
 	char **word_array = NULL;
 
-	while (str[++i]) 
+	while (str[++i])
 		str[i] = (str[i] == '\t') ? ' ' : str[i];
 	i = -1;
 	while (str[++i] == ' ');

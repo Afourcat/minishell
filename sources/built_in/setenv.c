@@ -14,7 +14,7 @@
 int cmd_len(char *cmd[])
 {
 	int i = -1;
-	
+
 	while (cmd[++i] != 0);
 	return (i);
 }
@@ -26,7 +26,7 @@ static int is_setable(char *cmd)
 		" contain alphanumeric characters.\n";
 	char *number_error = "setenv: Variable name must"	\
 		" begin with a letter.\n";
-	
+
 	if (!(cmd[0] >= 'A' && cmd[0] <= 'Z') &&
 	    !(cmd[0] >= 'a' && cmd[0] <= 'z')) {
 		write(2, number_error, my_strsize(number_error));

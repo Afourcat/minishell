@@ -32,7 +32,7 @@ char *my_revstr(char *str)
 {
 	int i = 0;
 	int size = my_strsize(str);
-	
+
 	while (i < size / 2) {
 		str[i] = str[size - i];
 	}
@@ -42,7 +42,7 @@ char *my_revstr(char *str)
 int get_int_size(int nbr)
 {
 	int i = 0;
-	
+
 	while ((nbr /= 10) < 0)
 		i++;
 	return (i);

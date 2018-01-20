@@ -17,11 +17,12 @@ int remo(char buffer[])
 	int j = 0;
 
 	while (buffer[j++] != '\n' && buffer[j] != '\0');
-	for (int i = 0; i < READ_SIZE; i++)
+	for (int i = 0; i < READ_SIZE; i++) {
 		if (buffer[j] != '\0')
 			buffer[i] = buffer[j++];
 		else
 			buffer[i] = '\0';
+	}
 	return (1);
 }
 
@@ -71,11 +72,12 @@ int there_is_back(char *ret)
 
 	if (ret == NULL)
 		return (1);
-	while (ret[++i])
+	while (ret[++i]) {
 		if (ret[i] == '\n') {
 			ret[i] = '\0';
 			return (1);
 		}
+	}
 	return (0);
 }
 

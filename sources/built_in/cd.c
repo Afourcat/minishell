@@ -54,7 +54,6 @@ static int choose_case(struct env_t *env, char *cmd[])
 	return (ret);
 }
 
-//Three entry point actual diretory, ~ and /
 int my_cd(char *cmd[], struct env_t *env)
 {
 	int ret = 0;

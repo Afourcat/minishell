@@ -2,14 +2,15 @@
 ** EPITECH PROJECT, 2018
 ** env.c
 ** File description:
-** environnement function
+** environement print function
 */
 
 #include <my_printf.h>
 #include <stdlib.h>
 #include "environment.h"
+#include "minishell.h"
 
-int my_env(__attribute__ ((unused)) char *cmd[], struct env_t *env)
+int my_env(UNUSED char *cmd[], struct env_t *env)
 {
 	int i = -1;
 	char **str = etsa(env);

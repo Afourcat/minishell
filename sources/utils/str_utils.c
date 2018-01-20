@@ -68,7 +68,7 @@ char *change_tilde_home(char *str, char *home)
 	char *ret = my_calloc(sizeof(char) * (size_home + size_str + 2));
 	int i = -1;
 	int j = 0;
-	
+
 	while (home[++i])
 		ret[j++] = home[i];
 	ret[j++] = '/';

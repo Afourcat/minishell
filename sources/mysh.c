@@ -28,12 +28,12 @@ void my_exec(char **cmd, char *prog, struct env_t *env)
 {
 	pid_t pid = -1;
 	int status = 0;
-	
+
 	pid = fork();
 	if (pid < 0)
 		perror("fork");
 	else if (pid == 0) {
-		signal(SIGINT, &signal_child);		
+		signal(SIGINT, &signal_child);
 		if (execve(prog, cmd, etsa(env)) == -1) {
 			write(2, prog, my_strsize(prog));
 			write(2, ": ", 2);
@@ -71,18 +71,19 @@ static int my_sh(char *cmd[], struct env_t *env)
 
 static int built_in(char *cmd[], struct env_t *env)
 {
-	for (int i = 0; i < BUILT_IN_NB; ++i)
+	for (int i = 0; i < BUILT_IN_NB; ++i) {
 		if (my_strcmp(BUILT_IN_STR[i], cmd[0])) {
 			BUILT_IN[i](cmd, env);
 			return (0);
 		}
+	}
 	return (1);
 }
 
 char *get_command_line(char *str, struct env_t *env)
 {
 	int i = -1;
-	
+
 	while (str[0] == '\0') {
 		i = -1;
 		if (isatty(0))
@@ -109,8 +110,7 @@ int main(UNUSED int argc, UNUSED char *argv[], char *envp[])
 	struct env_t *env = env_create(envp);
 
 	set_signal(env);
-	while (!end)
-	{
+	while (!end) {
 		str = get_command_line(str, env);
 		cmd = command_parser(str, &nbr);
 		transform_parser(cmd, env);

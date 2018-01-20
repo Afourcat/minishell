@@ -12,6 +12,8 @@
 #include "utils.h"
 #include "environment.h"
 
+void alloc_parser(char *str, int *k, int *j);
+void assigne_parser(char *str, int *j, int *k, char *word_array);
 char **command_parser(char *str, int *nb);
 char *get_path(struct env_t *env);
 char *get_function(char *str, struct env_t *env);

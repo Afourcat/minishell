@@ -14,9 +14,9 @@
 
 char *get_wich(char *value, int *i, struct env_t *env)
 {
-	char *(*egv)(struct env_t*, char *) = &env_get_value; 
+	char *(*egv) (struct env_t *, char *) = &env_get_value;
 
-	switch(value[(*i) + 1]) {
+	switch (value[(*i) + 1]) {
 	case 'u':
 		return (my_strdup(egv(env, "USER")));
 	case 'h':
@@ -31,7 +31,6 @@ char *get_wich(char *value, int *i, struct env_t *env)
 	case '[':
 		(*i)++;
 	}
-
 	return (NULL);
 }
 
@@ -52,7 +51,7 @@ char *generate_prompt(struct env_t *env)
 	char back_e = '\e';
 	char *value = env_get_value(env, "PS1");
 
-	while(value[++i] != '\0') {	
+	while (value[++i] != '\0') {
 		if ((value[i] == '\\' && value[i + 1] == '0' &&
 		     value[i + 2] == '3' && value[i + 3] == '3') ||
 		    (value [i] == '\\' && value[i + 1] == 'e')) {
@@ -62,7 +61,7 @@ char *generate_prompt(struct env_t *env)
 			str = get_wich(value, &i, env);
 			test_str(str, &i);
 		} else {
-			write(1 ,&value[i], 1);
+			write(1 , &value[i], 1);
 		}
 	}
 	return ("");

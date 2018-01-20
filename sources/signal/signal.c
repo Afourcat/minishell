@@ -31,13 +31,14 @@ struct env_t *get_set_env(struct env_t *env)
 
 void signal_shell(UNUSED int signum)
 {
-		write(1, "\n$> ", 4);
+	write(1, "\n$> ", 4);
 }
 
-void signal_child(UNUSED int signum) 
+void signal_child(UNUSED int signum)
 {
 	pid_t pid = getpid();
-	if(kill(pid, SIGINT) == 0)
+
+	if (kill(pid, SIGINT) == 0)
 		perror("kill ");
 	exit(0);
 }
@@ -55,5 +56,3 @@ void set_signal(struct env_t *env)
 	get_set_env(env);
 	signal(SIGINT, &signal_shell);
 }
-
-
